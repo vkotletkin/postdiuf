@@ -23,7 +23,7 @@ public class MessagesBrokerBot implements LongPollingSingleThreadUpdateConsumer 
   private final TelegramClient telegramClient;
   private final Path pathToSaveMessages;
 
-  Gson gson;
+  private final Gson gson;
 
   public MessagesBrokerBot(String token, String pathToSaveMessages) throws IOException {
     telegramClient = new OkHttpTelegramClient(token);
@@ -50,7 +50,7 @@ public class MessagesBrokerBot implements LongPollingSingleThreadUpdateConsumer 
               chatMessageSenderAccount.getChatID(), chatMessageSenderAccount.getMessage());
 
       try {
-        telegramClient.execute(sendMessage); // Sending our message object to user
+        telegramClient.execute(sendMessage);
       } catch (TelegramApiException e) {
         e.printStackTrace();
       }
@@ -71,10 +71,6 @@ public class MessagesBrokerBot implements LongPollingSingleThreadUpdateConsumer 
   }
 
   private SendMessage generateTelegramAnswer(long chatID, String message) {
-    return SendMessage // Create a message object
-        .builder()
-        .chatId(chatID)
-        .text(message)
-        .build();
+    return SendMessage.builder().chatId(chatID).text(message).build();
   }
 }
