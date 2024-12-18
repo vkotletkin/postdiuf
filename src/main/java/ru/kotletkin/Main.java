@@ -4,19 +4,20 @@ import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 import ru.kotletkin.bots.MessagesBrokerBot;
 
 public class Main {
-    public static void main(String[] args) {
 
-        // Register our bot
-        String botToken = System.getenv("TELEGRAM_TOKEN");
+  public static String PATH_TO_SAVE_MESSAGES = "./messages";
+  public static String BOT_TOKEN = System.getenv("TELEGRAM_TOKEN");
 
-        String pathToSaveMessages = "./messages";
+  public static void main(String[] args) {
 
-        try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
-            botsApplication.registerBot(botToken, new MessagesBrokerBot(botToken, pathToSaveMessages));
-            System.out.println("MessageBrokerBot started!");
-            Thread.currentThread().join();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    try (TelegramBotsLongPollingApplication botsApplication =
+        new TelegramBotsLongPollingApplication()) {
+      botsApplication.registerBot(
+          BOT_TOKEN, new MessagesBrokerBot(BOT_TOKEN, PATH_TO_SAVE_MESSAGES));
+      System.out.println("MessageBrokerBot started!");
+      Thread.currentThread().join();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 }
