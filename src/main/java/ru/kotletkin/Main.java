@@ -1,8 +1,10 @@
 package ru.kotletkin;
 
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 import ru.kotletkin.bot.MessagesBrokerBot;
 
+@Slf4j
 public class Main {
 
     public static String PATH_TO_SAVE_MESSAGES = "./messages";

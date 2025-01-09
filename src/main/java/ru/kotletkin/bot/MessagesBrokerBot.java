@@ -1,6 +1,7 @@
 package ru.kotletkin.bot;
 
 import com.google.gson.Gson;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+@Slf4j
 public class MessagesBrokerBot implements LongPollingSingleThreadUpdateConsumer {
 
     private final TelegramClient telegramClient;
@@ -37,7 +39,9 @@ public class MessagesBrokerBot implements LongPollingSingleThreadUpdateConsumer 
         if (update.hasMessage() && update.getMessage().hasText()) {
 
             Message message = update.getMessage();
+            log.info("A new message has been received from the user: {}", message.getFrom().getUserName());
 
+            log.debug("Assembling a class object for message");
             ChatMessageSenderAccount chatMessageSenderAccount = ChatMessageSenderAccount.builder()
                     .userName(message.getFrom().getUserName())
                     .firstName(message.getFrom().getFirstName())
@@ -47,10 +51,13 @@ public class MessagesBrokerBot implements LongPollingSingleThreadUpdateConsumer 
                     .chatID(message.getChatId())
                     .message(message.getText())
                     .build();
+            log.debug("Assembling a class object for message - success");
 
             String filename = generateFilenamePath();
+            log.info("For a message from a user: {} generated filename: {}", message.getFrom().getUserName(), filename);
 
             saveInfoToFile(chatMessageSenderAccount, filename);
+            log.info("Data for a message saved to file: {}", filename);
 
             SendMessage sendMessage = generateTelegramAnswer(chatMessageSenderAccount.getChatID(), chatMessageSenderAccount.getMessage());
 
