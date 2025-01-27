@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>org.telegram</groupId>
-            <artifactId>telegrambots-longpolling</artifactId>
+            <artifactId>telegrambots-springboot-longpolling-starter</artifactId>
             <version>8.0.0</version>
         </dependency>
         <dependency>
@@ -54,6 +54,11 @@
             <groupId>org.fusesource.jansi</groupId>
             <artifactId>jansi</artifactId>
             <version>2.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <version>2.30.3</version>
         </dependency>
     </dependencies>
     <build>
